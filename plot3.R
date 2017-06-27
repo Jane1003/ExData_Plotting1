@@ -1,0 +1,13 @@
+library(readr)
+power <- read_delim("D:/Google Drive/stats begins here/Data Science -John Hopkins/Course 4 Exploratory Data Analysis/Week 1 Programming Assignment/household_power_consumption.txt",";", escape_double = FALSE, trim_ws = TRUE)
+View(power)
+d<-as.Date(power$Date,"%d/%m/%Y")
+subpower<-power[d=="2007/02/01" | d=="2007/02/02",]
+time<-paste(subpower$Date,subpower$Time,sep=" ")
+datetime<-strptime(time, "%d/%m/%Y %H:%M:%S")
+png(filename = "plot3",width=480,height=480)
+with(subpower,plot(datetime,Sub_metering_1,type="l",ylab="Energy sub metering",xlab=" "))
+lines(datetime,subpower$Sub_metering_2,type="l",col= "red")
+lines(datetime,subpower$Sub_metering_3,type="l",col= "blue")
+legend("topright",lty=1,lwd=2.5,col=c("black","red","blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+dev.off()
